@@ -66,12 +66,17 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, aliens, 
   if collision:
     for aliens in collision.values():
       stats.score += ai_settings.alien_points * len(aliens)
-      sb.prep_score()
+    sb.prep_score()
     check_high_score(stats, sb)
 
   if len(aliens) == 0:
     bullets.empty()
     ai_settings.increase_speed()
+
+    # 提高等级
+    stats.level += 1
+    sb.prep_level()
+
     create_fleet(ai_settings, screen, ship, aliens)
 
 def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
@@ -158,6 +163,7 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
     ai_settings.initilize_dynamic_settings()
     pygame.mouse.set_visible(False)
     sb.prep_score()
+    sb.prep_level()
 
     # 清空 👽 和 子弹
     aliens.empty()
